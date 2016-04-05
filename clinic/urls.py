@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic import TemplateView
+from reception.views import ReceptionCreateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', ReceptionCreateView.as_view()),
+    url(r'^success/$', TemplateView.as_view(template_name="reception/success.html")),
 ]
