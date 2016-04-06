@@ -16,8 +16,37 @@
 window.django_data = {{data|safe}} ;
 window.django_doctors = {{doctors|safe}} ;
 $( document ).ready(function() {
-  $('#id_date').datepicker();
-  $('#id_date').datepicker('setDaysOfWeekDisabled', '06');
+  var date = $('#id_date');
+  var doctor= $('#id_doctor');
+  var hour = $('#id_hour');
+  date.datepicker();
+  date.datepicker('setDaysOfWeekDisabled', '06');
+  var update_hour = function(){
+      console.log('start');
+      $( "#id_hour option" ).prop( "disabled", false );
+      var doctorId = parseInt(doctor.val());
+      var dateString = date.val();
+      $('#id_hour option').each(function( index ) {
+          var option = $( this );
+          window.django_data[doctorId].forEach(
+                  function(row){
+                      console.log(row);
+                      if(row['date']==dateString && parseInt(option.val()) == row.hour){
+                          option.prop( "disabled", true );
+                      }
+                  }
+                  );
+
+
+      })
+  }
+  date.change(update_hour);
+  doctor.change(update_hour);
+
+
+
+
+
 });
 </script>
 {% endblock %}
