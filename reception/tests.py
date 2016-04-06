@@ -8,5 +8,5 @@ class ClinicViewsTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_success(self):
-        resp = self.client.get('/success')
+        resp = self.client.get('/success/')
         self.assertEqual(resp.status_code, 200)
