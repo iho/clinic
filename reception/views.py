@@ -1,4 +1,5 @@
 import json
+from itertools import groupby
 
 from django.shortcuts import render
 from django.views.generic import CreateView
@@ -15,7 +16,6 @@ def date_handler(obj):
     return obj
 
 
-from itertools import groupby
 class ReceptionCreateView(CreateView):
     model = Reception
     fields = ['doctor', 'date', 'hour', 'full_name']
@@ -25,7 +25,7 @@ class ReceptionCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['doctors'] = json.dumps(list(Doctor.objects.all().values()))
         data = {}
-        for key, group in groupby( Reception.objects.all().values(), lambda x : x['doctor_id']):
+        for key, group in groupby(Reception.objects.all().values(), lambda x: x['doctor_id']):
             data[key] = list(group)
         data = json.dumps(data, default=date_handler)
         context['data'] = data
